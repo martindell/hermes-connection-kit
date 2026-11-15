@@ -1,0 +1,14 @@
+name: offline tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline unit tests (fictional keys, fake manager)
+        run: |
+          install -d -m 700 "$HOME/mcp-private-tests"
+          TMPDIR="$HOME/mcp-private-tests" python3 -m unittest discover -s . -p 'test_*.py' -v

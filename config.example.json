@@ -1,0 +1,13 @@
+{
+
+  "client_path": "/usr/local/bin/mcp-tunnel-client",
+  "client_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "client_config_path": "/etc/hermes-mcp-connection/client.yaml",
+  "client_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "tunnel_id": "tunnel_example_replace_me",
+  "listener_port": 18764,
+  "gateway_port": 8642,
+  "install_dir": "/home/example/.local/lib/hermes-mcp-connection",
+  "state_dir": "/home/example/.local/state/hermes-mcp-connection",
+  "unit_name": "hermes-mcp-connection.service"
+}

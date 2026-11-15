@@ -1,0 +1,11 @@
+{
+  "routes": {
+    "demo": {"repo": "example/private-repository", "pr": 42}
+  },
+  "gateway_origin": "http://127.0.0.1:8642",
+  "gateway_credential_file": "/home/example/.local/state/hermes-mcp-connection/credentials/gateway",
+  "managed_unit": "hermes-mcp-connection.service",
+  "managed_fragment": "/home/example/.config/systemd/user/hermes-mcp-connection.service",
+  "ack_actor": "example-actor",
+  "control_port": 18765
+}

@@ -1,0 +1,131 @@
+# Fictional example: inactive; main routes to this client's Harpoon MCP endpoint.
+config_version: 2
+control_plane:
+  tunnel_id: tunnel_example_replace_me
+  api_key: env:CONTROL_PLANE_API_KEY
+  poll_channels: [main, harpoon]
+mcp:
+  server_urls:
+    - channel: main
+      url: http://127.0.0.1:18764/harpoon/mcp
+  startup_wait_timeout: 10s
+harpoon:
+  additional_transports: [http-streamable]
+  targets:
+    - label: hermes_start
+      description: Start ONE explicitly authorised task, once. Retain run_id from a successful response and poll status. A timeout, transport error, lost or malformed response, or response-size failure means UNKNOWN; stop and reconcile on Hermes before another start. NEVER automatically retry or use a fresh request as recovery. Background completion is not pushed to the calling conversation.
+      template:
+        version: 1
+        origin: http://127.0.0.1:8642
+        allow_loopback_http: true
+        method: POST
+        path_template: /v1/runs
+        # The installed handler ignores this query; templates require a parameter.
+        query:
+          mode: "{mode}"
+        parameters:
+          mode:
+            type: string
+            required: true
+            enum: [start]
+            max_length: 5
+        body_policy:
+          content_types: [application/json]
+          max_bytes: 16384
+          required: true
+          validation:
+            json: true
+        headers:
+          Authorization: env:HERMES_API_AUTHORIZATION
+        follow_redirects: false
+
+    - label: hermes_status
+      description: Poll only a run_id returned by a successful start; pending approval or unknown is not terminal success. Status polling does not resubmit the run.
+      template:
+        version: 1
+        origin: http://127.0.0.1:8642
+        allow_loopback_http: true
+        method: GET
+        path_template: /v1/runs/{run_id}
+        parameters:
+          run_id:
+            type: string
+            required: true
+            pattern: '^run_[0-9a-f]{32}$'
+            min_length: 36
+            max_length: 36
+        headers:
+          Authorization: env:HERMES_API_AUTHORIZATION
+        follow_redirects: false
+
+    - label: hermes_stop
+      description: Request interruption once for a known run_id. A stopping response is nonterminal; poll status. If the response is ambiguous, reconcile on Hermes; NEVER blindly retry stop.
+      template:
+        version: 1
+        origin: http://127.0.0.1:8642
+        allow_loopback_http: true
+        method: POST
+        path_template: /v1/runs/{run_id}/stop
+        parameters:
+          run_id:
+            type: string
+            required: true
+            pattern: '^run_[0-9a-f]{32}$'
+            min_length: 36
+            max_length: 36
+        body_policy:
+          content_types: [application/json]
+          max_bytes: 256
+          required: false
+          validation:
+            json: true
+        headers:
+          Authorization: env:HERMES_API_AUTHORIZATION
+        follow_redirects: false
+    - label: hermes_register
+      description: Register ONE successfully returned run ID and an exact allowlisted PR route; this never starts or retries a task. If registration response is ambiguous, read hermes_tracked before any manual decision. Supply a per-job absolute UTC deadline.
+      template:
+        version: 1
+        origin: http://127.0.0.1:18765
+        allow_loopback_http: true
+        method: POST
+        path_template: /register
+        # The adapter ignores this query; templates require a parameter.
+        query:
+          mode: "{mode}"
+        parameters:
+          mode:
+            type: string
+            required: true
+            enum: [register]
+            max_length: 8
+        body_policy:
+          content_types: [application/json]
+          max_bytes: 2048
+          required: true
+          validation:
+            json: true
+        headers:
+          Authorization: env:HERMES_API_AUTHORIZATION
+        follow_redirects: false
+
+    - label: hermes_tracked
+      description: Read only a previously registered run ID; this is not a task status or a task replay.
+      template:
+        version: 1
+        origin: http://127.0.0.1:18765
+        allow_loopback_http: true
+        method: GET
+        path_template: /tracked/{run_id}
+        parameters:
+          run_id:
+            type: string
+            required: true
+            pattern: '^run_[0-9a-f]{32}$'
+            min_length: 36
+            max_length: 36
+        headers:
+          Authorization: env:HERMES_API_AUTHORIZATION
+        follow_redirects: false
+health:
+  listen_addr: 127.0.0.1:18764

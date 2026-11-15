@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hermes Collaboration"
+  short_description: "Coordinate authorised Hermes work and callbacks"
+  default_prompt: "Use $hermes-collaboration for this project. First read its issue ledger and current route; do not start work without a bounded user instruction."

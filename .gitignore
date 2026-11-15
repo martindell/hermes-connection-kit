@@ -1,0 +1,15 @@
+# Local, host-specific, potentially secret-bearing files: never commit these.
+config.json
+watchdog-config.json
+watchdog-state/
+client-config-real*.yaml
+credentials/
+*.key
+*.pem
+.on-demand-install/
+
+# Python / test artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
