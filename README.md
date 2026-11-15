@@ -4,6 +4,14 @@ Connect ChatGPT Work to a Hermes Agent running on your own Linux machine, and le
 
 This kit helps you use ChatGPT to plan and review work while Hermes carries it out on your machine. It provides an on-demand connection you can open for a working session and close afterwards, plus an optional “doorbell” so you do not have to keep asking whether a job has finished.
 
+## Watch the demo
+
+[Watch the 23-second demo: Work → Hermes → completion in the same conversation](docs/media/hermes-demo.mp4)
+
+A real harmless task is sent from Work, then its completion is reported automatically
+in that same conversation. The silent recording is cropped for readability and the
+waiting time is shortened and labelled; it is not a notification-speed guarantee.
+
 ## Who is it for?
 
 People who run, or want to run, Hermes on a Linux server or VM and collaborate with it from ChatGPT Work—for example, on coding, testing or other explicitly authorised project tasks. It is aimed at users comfortable following terminal-based setup instructions, with access to the required OpenAI tunnel and MCP features. The doorbell also needs GitHub and Work webhook support.
