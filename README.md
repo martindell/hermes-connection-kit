@@ -43,6 +43,7 @@ not been qualified by this project.
 - **Open and close the connection on demand.** A background user service runs the tunnel without an open terminal. Disconnecting retains credentials for the next session.
 - **Let Work send authorised tasks to Hermes and check their results.** The included tunnel configuration example describes the MCP tools used to communicate with the Hermes gateway.
 - **Bring results back to the conversation.** The optional observer watches explicitly registered jobs and posts completion, overdue or attention-needed events to a designated GitHub pull request. A Work webhook wakes the owning conversation, which verifies the result and acknowledges the event.
+- **Catch missed handovers and reviews.** The optional [deadline watchdog](docs/portable-watchdog.md) can run on a separate Linux host. If Hermes finishes and Work misses its promised review, the watchdog alerts the operator through a configurable notification command. Use your own private issue for task records.
 - **Make the setup repeatable.** Setup guides, offline tests, configuration examples, project and webhook templates, and a customisable collaboration skill capture the workflow.
 
 For example: you ask Work to have Hermes run a project's tests. Work starts the authorised job and registers its returned run ID with the observer. When the job finishes, the doorbell notifies Work so it can check the result and report back. An overdue notification means a deadline has passed; it does not prove the job is stuck.

@@ -5,8 +5,8 @@ Git history or operational conversations. The canonical explicit file list is
 `FILES` in [tools/source_bundle.py](../tools/source_bundle.py). Review that list
 and every included file before distribution.
 
-Included: the MIT licence, four runtime/migration modules, fictional configuration examples,
-README and guides, portable collaboration skill and references, callback templates,
+Included: the MIT licence, connection and migration modules, the portable deadline watchdog, its example notification hook, fictional configuration examples,
+README, guides and public demo, portable collaboration skill and references, callback templates,
 isolated tests, source packager, event validator and offline CI workflow.
 
 Excluded: the maintainer-specific live helper

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Hook arguments are the subject and message. View with journalctl -t hermes-watchdog
+# on hosts that collect local syslog messages in the system journal.
+set -eu
+exec logger -t hermes-watchdog -- "$1: $2"
